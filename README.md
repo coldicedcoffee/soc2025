@@ -4,7 +4,7 @@
 
 #### This repository is a part of HelloFOSS '23
 
-An on-going project of the Web and Coding Club. Built using Django REST Framework and React.
+An on-going project of the Web and Coding Club 2025. Built using Django REST Framework and React.
 
 # Getting Started
 
