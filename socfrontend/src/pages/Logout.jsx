@@ -9,12 +9,14 @@ function Logout() {
             .then((res) => {
                 console.log(res.data);
                 window.location.reload();
+                localStorage.removeItem('authToken');
                 navigate('/login')
                 
             })
             .catch(err => {
                 console.log(err);
                 window.location.reload();
+                localStorage.removeItem('authToken');
                 navigate('/login')
               
             })
