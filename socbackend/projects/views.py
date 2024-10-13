@@ -10,6 +10,10 @@ from rest_framework.views import APIView
 from .models import Mentee, Project, MenteePreference, MenteeWishlist
 from rest_framework.permissions import IsAuthenticated
 from accounts.models import UserProfile
+from rest_framework.permissions import AllowAny
+import logging
+
+logger = logging.getLogger(__name__)
 # from .serializers import (
 #     ProjectAdditionSerializer,
 # )
@@ -27,22 +31,36 @@ class ProjectDetailView(APIView):
 
 class ProjectWishlist(APIView):
     permission_classes = [IsAuthenticated]
+    # permission_classes = [AllowAny]  # Allow any user to access the post request
 
     def get(self, request):
         user_profile = UserProfile.objects.get(user=request.user)
+        # logger.error('\n \n Error 1 \n \n ')
         mentee = Mentee.objects.get(user=user_profile)
+        # logger.error('\n \n Error 2 \n \n ')
         preferences = MenteeWishlist.objects.filter(mentee=mentee)
+        # logger.error('\n \n Error 3 \n \n ')
         project_objects = [preference.project for preference in preferences]
+        # logger.error('\n \n Error 4 \n \n ')
         serializer = BasicProjectSerializer(project_objects, many=True)
+        # logger.error('\n \n Error 5 \n \n ')
         return Response(serializer.data)
     
     def post(self, request):
+        # logger.error('\n \n Error 6 \n \n ')
+        # print("HI")
         user_profile = UserProfile.objects.get(user=request.user)
+        # logger.error('\n \n Error 7 \n \n ')
         mentee = Mentee.objects.get(user=user_profile)
+        # logger.error('\n \n Error 8 \n \n ')
         project_id = request.data["project_id"]
+        # logger.error('\n \n Error 9 \n \n ')
         project = Project.objects.get(pk=project_id)
+        # logger.error('\n \n Error 10 \n \n ')
         preference = MenteeWishlist(mentee=mentee, project=project)
+        # logger.error('\n \n Error 11 \n \n ')
         preference.save()
+        # logger.error('\n \n Error 12 \n \n ')
         return Response({"message": "Project added to wishlist."})
     
     def delete(self, request):

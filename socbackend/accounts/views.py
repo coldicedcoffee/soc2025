@@ -90,8 +90,8 @@ def send_verification_email(user_profile):
     {os.getenv('DOMAIN_NAME')}/verify-email/{user_profile.verification_token}
     
     Regards,
-    SOC Menteee Team"""
-    from_email = 'dean@iitb.ac.in'  # Sender's email address
+    Team WnCC"""
+    from_email = 'wncc@iitb.ac.in'  # Sender's email address
     recipient_list = [user_profile.roll_number+'@iitb.ac.in']  # Recipient's email address
     
     send_mail(subject, message, from_email, recipient_list)  

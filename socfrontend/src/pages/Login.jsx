@@ -35,6 +35,7 @@ export default function Login() {
     const handleSubmit = (e) => {
         console.log(profile);
         e.preventDefault();
+        
         const formData = new FormData();
 
         Object.keys(profile).forEach(key => {
@@ -50,10 +51,8 @@ export default function Login() {
                 console.log(err);
                 setError(true);
             })
-
-
-
-    };
+        
+        };
 
 
     // Showing success message
