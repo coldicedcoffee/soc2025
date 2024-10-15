@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useMemo } from "react";
 import "../components/ProjectCard.css";
-import {Outlet, Link} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 export default function Wishlist() {
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+# from django.contrib import admin
 from .models import Project, Season, Mentee, MenteePreference, MenteeWishlist
 
 
@@ -13,13 +13,16 @@ from .models import Project, Season, Mentee, MenteePreference, MenteeWishlist
 #     model = Project
 #     inlines = [MentorInline]
 
+class MenteeAdmin(admin.ModelAdmin):
+    list_per_page = 1000  
+
 
 # Register your models here.
 admin.site.register(Season)
 # admin.site.register(Project, ProjectAdmin)
 # admin.site.register(Mentor)
 admin.site.register(Project)    
-admin.site.register(Mentee)
+admin.site.register(Mentee, MenteeAdmin)
 # admin.site.register(ProjectCategory)
 admin.site.register(MenteePreference)
 admin.site.register(MenteeWishlist)

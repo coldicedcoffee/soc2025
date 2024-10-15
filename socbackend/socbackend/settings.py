@@ -15,11 +15,12 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('/var/www/socbackend/.env')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+DEBUG = True
 
 PORTAL_SETTINGS = {
     "CURRENT_ACTIVE_SEASON_ID": 1,
@@ -34,10 +35,10 @@ SECRET_KEY = os.environ.get(
     "django-insecure-d+#y%l^0ihv^!n85jt7ckxco6(b=0(a3+e+fml#3t0ef2gbs3k",
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://itc.gymkhana.iitb.ac.in','itc.gymkhana.iitb.ac.in' , '*','localhost', '127.0.0.1']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -66,16 +67,23 @@ INSTALLED_APPS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://itc.gymkhana.iitb.ac.in/",
     "http://localhost:3000/",
     "http://127.0.0.1:3000/",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+################## Updated
+# CORS_ALLOWED_ORIGINS = [
+#     "https://itc.gymkhana.iitb.ac.in/",
+#     "http://localhost:3000",
+#     "http://127.0.0.1:3000",
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+################## Updated
+
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
@@ -182,7 +190,7 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
 
 # Media files (only used when DEBUG = True)
-MEDIA_URL = "/media/"
+MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type

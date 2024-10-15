@@ -1,29 +1,11 @@
-import React from "react";
-import { useState } from "react";
-// import PropTypes from "prop-types";
-import {
-  Link
-} from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import wncc_logo from '../assets/wncc-logo.png';
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <MenteeForm/>,
-//   },
-// ]);
-
-
-// const router = createBrowserRouter(routes);
-
-// const handleButtonClick = () => {
-//   // Use the router to navigate to a specific route
-//   router.navigate('/'); // Replace '/' with the desired route
-// };
-
+import PropTypes from "prop-types";
 
 export default function Navbar(props) {
   console.log(props.authToken);
+  const authToken = localStorage.getItem('authToken');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -31,11 +13,10 @@ export default function Navbar(props) {
   };
 
   return (
-    
     <nav className="bg-indigo-600 border-gray-200 dark:bg-gray-900 dark:border-gray-700 shadow-xl opacity-90">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src={wncc_logo} className="h-10" alt="Flowbite Logo" />
+          <img src={wncc_logo} className="h-10" alt="WnCC Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white">WnCC</span>
         </Link>
 
@@ -43,7 +24,7 @@ export default function Navbar(props) {
           id="menubutton"
           onClick={toggleMenu}
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-dropdown"
+          aria-controls="navbar-menu"
           aria-expanded={isMenuOpen ? "true" : "false"}
         >
           <span className="sr-only">Open main menu</span>
@@ -64,27 +45,13 @@ export default function Navbar(props) {
           </svg>
         </button>
 
-        <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
-        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:border-gray-700">
-        <li>
-        <Link to="" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Home</Link>
-        </li>
-        <li>
-        <Link to="login" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</Link>
-        </li>
-        <li>
-        <Link to="register" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</Link>
-        </li>
-        </ul></div>
-
-
-        <div className="w-full md:flex md:w-auto" id="navbar-dropdown">
-          <ul className={`flex flex-col md:flex-row font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse ${isMenuOpen ? 'block' : 'hidden'}`}>
-            <li id="homeText">
+        <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-menu">
+          <ul className="flex flex-col md:flex-row font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:border-gray-700">
+            <li>
               <Link to="" className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Home</Link>
             </li>
-            
-            {props.authToken ? (
+
+            {authToken ? (
               <>
                 <li>
                   <Link to="current_projects" className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Projects</Link>
@@ -116,9 +83,7 @@ export default function Navbar(props) {
   );
 }
 
-
-
-
-// Navbar.PropTypes={
-//     title: PropTypes.string,
-// }
+Navbar.propTypes = {
+  title: PropTypes.string,
+  authToken: PropTypes.bool.isRequired,
+};
