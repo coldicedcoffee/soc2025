@@ -32,7 +32,7 @@ export default function Login() {
             formData.append(key, profile[key]);
         });
 
-        api.post('api/accounts/token/', formData)
+        api.post(process.env.REACT_APP_BACKEND_URL+'/accounts/token/', formData)
             .then(function (response) {
                 const token = response.data.access;  // Extract token
                 console.log("Login successful, token:", token);

@@ -28,7 +28,7 @@ export default function App() {
   const [authToken, setAuthToken] = useState(null);
 
   useEffect(() => {
-    api.get("/api/accounts/isloggedin/")
+    api.get(process.env.REACT_APP_BACKEND_URL+"/accounts/isloggedin/")
       .then((res) => {
         console.log(res.data.status);
         setAuthToken(res.data.status === "YES");

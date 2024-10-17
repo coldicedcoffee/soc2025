@@ -1,7 +1,6 @@
 {
   "name": "soc_app",
-  "proxy": "https://itc.gymkhana.iitb.ac.in/socbackend",
-  "homepage": "https://itc.gymkhana.iitb.ac.in/wncc-soc",
+  "homepage": "/wncc-soc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

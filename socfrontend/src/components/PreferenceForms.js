@@ -37,7 +37,7 @@ function PreferenceForms(props) {
         } else {
             setSubmitted(true);
             setError(false);
-            api.post('api/accounts/preference/', data)
+            api.post(process.env.REACT_APP_BACKEND_URL+'/accounts/preference/', data)
                 .then(res => {
                     navigate('/'); // Redirect to the home page
                

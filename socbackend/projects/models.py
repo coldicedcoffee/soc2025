@@ -38,34 +38,34 @@ class SeasonManager(models.Manager):
         return self.get(is_active=True).id
 
 
-class Season(models.Model):
-    """
-    Model representing a Seasons of Code event. Used by projects to
-    reference which event they belonged to, and to control the apprearence of
-    the dashboard as the event progresses.
-    """
+# class Season(models.Model):
+#     """
+#     Model representing a Seasons of Code event. Used by projects to
+#     reference which event they belonged to, and to control the apprearence of
+#     the dashboard as the event progresses.
+#     """
 
-    name = models.CharField(max_length=100, default=default_season_name)
-    is_active = models.BooleanField(default=False)
-    objects = SeasonManager()
+#     name = models.CharField(max_length=100, default=default_season_name)
+#     is_active = models.BooleanField(default=False)
+#     objects = SeasonManager()
 
-    class StatusChoices(models.IntegerChoices):
-        YET_TO_START = 0
-        MENTOR_REGISTRATION = 10
-        MID_MENTOR_MENTEE = 15
-        MENTEE_REGISTRATION = 20
-        ONGOING = 30
+#     class StatusChoices(models.IntegerChoices):
+#         YET_TO_START = 0
+#         MENTOR_REGISTRATION = 10
+#         MID_MENTOR_MENTEE = 15
+#         MENTEE_REGISTRATION = 20
+#         ONGOING = 30
 
-    status = models.IntegerField(
-        default=StatusChoices.YET_TO_START, choices=StatusChoices.choices
-    )
+#     status = models.IntegerField(
+#         default=StatusChoices.YET_TO_START, choices=StatusChoices.choices
+#     )
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
 
-def get_current_id():
-    return Season.objects.current_id()
+# def get_current_id():
+#     return Season.objects.current_id()
 
 
 def upload_to(instance, filename):
@@ -114,12 +114,13 @@ class Mentee(models.Model):
         help_text="The user corresponding to the mentee.",
         unique=True,
     )
-    season = models.ForeignKey(
-        Season,
-        on_delete=models.PROTECT,
-        default=get_current_id,
-        help_text="The season to which mentee is applying for.",
-    )
+    season = models.TextField(default='')
+    # season = models.ForeignKey(
+    #     Season,
+    #     on_delete=models.PROTECT,
+    #     default=get_current_id,
+    #     help_text="The season to which mentee is applying for.",
+    # )
 
     # project = models.ForeignKey(
     #     Project,
@@ -162,12 +163,12 @@ class Project(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, blank=False)
-    season = models.ForeignKey(
-        Season,
-        on_delete=models.PROTECT,
-        related_name="projects",
-        default=get_current_id,
-    )
+    # season = models.ForeignKey(
+    #     Season,
+    #     on_delete=models.PROTECT,
+    #     related_name="projects",
+    #     default=get_current_id,
+    # )
 
     # mentors = models.ManyToManyField(Mentor, through="MentorRequest")
 

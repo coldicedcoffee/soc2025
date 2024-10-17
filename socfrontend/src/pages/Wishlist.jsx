@@ -27,7 +27,7 @@ export default function Wishlist() {
     
     useEffect(() => {
       // Make an HTTP request to fetch the card image from the backend
-      api.get('/api/projects/wishlist/')
+      api.get(process.env.REACT_APP_BACKEND_URL+'/projects/wishlist/')
       .then((response) => {
         // Assuming the response contains the image URL
         console.log(response.data);

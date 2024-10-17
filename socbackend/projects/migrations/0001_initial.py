@@ -40,14 +40,14 @@ class Migration(migrations.Migration):
                 ('co_mentor_info', models.TextField(default='NA')),
                 ('banner_image', models.ImageField(blank=True, null=True, upload_to=projects.models.upload_to)),
                 ('code', models.CharField(editable=False, max_length=8, unique=True)),
-                ('season', models.ForeignKey(default=projects.models.get_current_id, on_delete=django.db.models.deletion.PROTECT, related_name='projects', to='projects.season')),
+               # ('season', models.ForeignKey(default=projects.models.get_current_id, on_delete=django.db.models.deletion.PROTECT, related_name='projects', to='projects.season')),
             ],
         ),
         migrations.CreateModel(
             name='Mentee',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('season', models.ForeignKey(default=projects.models.get_current_id, help_text='The season to which mentee is applying for.', on_delete=django.db.models.deletion.PROTECT, to='projects.season')),
+              #  ('season', models.ForeignKey(default=projects.models.get_current_id, help_text='The season to which mentee is applying for.', on_delete=django.db.models.deletion.PROTECT, to='projects.season')),
                 ('user', models.OneToOneField(help_text='The user corresponding to the mentee.', on_delete=django.db.models.deletion.CASCADE, to='accounts.userprofile')),
             ],
         ),

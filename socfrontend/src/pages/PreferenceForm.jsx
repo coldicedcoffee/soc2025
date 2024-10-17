@@ -17,7 +17,7 @@ export default function PreferenceForm() {
 
     useEffect(() => {
         // Make an HTTP request to fetch the card image from the backend
-        api.get('/api/projects/wishlist/')
+        api.get(process.env.REACT_APP_BACKEND_URL+'/projects/wishlist/')
         .then((response) => {
             // Assuming the response contains the image URL
             console.log(response.data);
@@ -31,7 +31,7 @@ export default function PreferenceForm() {
 
     useEffect(() => {
         // Make an HTTP request to fetch the card image from the backend
-        api.get('/api/projects/preference')
+        api.get(process.env.REACT_APP_BACKEND_URL+'/projects/preference')
         .then((response) => {
             // Assuming the response contains the image URL
             console.log(response.data);
@@ -129,7 +129,7 @@ export default function PreferenceForm() {
                 formData3.append(key, data3[key]);
             });
 
-            api.post('api/projects/preference/', formData1)
+            api.post(process.env.REACT_APP_BACKEND_URL+'/projects/preference/', formData1)
                 .then(res => {
                     console.log(res)
                 })
@@ -137,7 +137,7 @@ export default function PreferenceForm() {
                     console.log(err);
                     setError(true);
                 })
-                api.post('api/projects/preference/', formData2)
+                api.post(process.env.REACT_APP_BACKEND_URL+'/projects/preference/', formData2)
                 .then(res => {
                     console.log(res)
                 })
@@ -145,7 +145,7 @@ export default function PreferenceForm() {
                     console.log(err);
                     setError(true) ;
                 })
-                api.post('api/projects/preference/', formData3)
+                api.post(process.env.REACT_APP_BACKEND_URL+'/projects/preference/', formData3)
                 .then(res => {
                     console.log(res);
                     setSubmitted(true);

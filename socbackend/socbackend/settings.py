@@ -86,6 +86,22 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS',
+]
+
+CORS_ALLOW_HEADERS = [
+   'authorization',
+    'content-type',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -118,7 +134,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "socbackend.wsgi.application"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("accounts.custom_auth.CookieJWTAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ('rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',"accounts.custom_auth.CookieJWTAuthentication",),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
         "accounts.permissions.HasUserProfile",

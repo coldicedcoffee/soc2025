@@ -33,7 +33,7 @@ export default function ProjectForm() {
 
     const detailsSubmit = (e) => {
         console.log(projectlist)
-        api.post('/api/dashboard/mentor/submit/', projectlist)
+        api.post(process.env.REACT_APP_BACKEND_URL+'/dashboard/mentor/submit/', projectlist)
             .then(res => {
                 console.log(res)
             }).catch(err =>
@@ -44,7 +44,7 @@ export default function ProjectForm() {
     const handleRollNumberChange = (e) => {
         var roll = e.target.value ? e.target.value : null;
         if (roll === null) return;
-        api.get('/api/accounts/' + '?search=' + roll)
+        api.get(process.env.REACT_APP_BACKEND_URL+'/accounts/' + '?search=' + roll)
             .then(function (roll_number) {
 
                 if (roll_number.data.length === 0) {

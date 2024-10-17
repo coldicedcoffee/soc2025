@@ -25,7 +25,7 @@ export default function Register() {
     const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
-        api.get('/api/accounts/years')
+        api.get(process.env.REACT_APP_BACKEND_URL+'/accounts/years')
         .then((res) => {
             setYears(res.data)
         })
@@ -33,7 +33,7 @@ export default function Register() {
       }, []);
 
     useEffect(() => {
-        api.get('/api/accounts/departments')
+        api.get(process.env.REACT_APP_BACKEND_URL+'/accounts/departments')
         .then((res) => {
             setDepartments(res.data)
         })
@@ -70,7 +70,7 @@ export default function Register() {
             setError(false);
             setError1(false);
         }
-        api.post('/api/accounts/register/', formData)
+        api.post(process.env.REACT_APP_BACKEND_URL+'/accounts/register/', formData)
             .then(res => {
                 navigate('/registerSuccess')
                 console.log(res)

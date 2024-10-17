@@ -3,7 +3,8 @@ from rest_framework import generics
 from .models import Project
 from .serializers import ProjectSerializer, BasicProjectSerializer, MenteePreferenceSerializer, MenteePreferenceSaveSerializer
 
-from projects.models import Season
+# from projects.models import Season
+from accounts.custom_auth import CookieJWTAuthentication
 from rest_framework import generics, views
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,14 +31,16 @@ class ProjectDetailView(APIView):
     
 
 class ProjectWishlist(APIView):
+    authentication_classes  = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
-    # permission_classes = [AllowAny]  # Allow any user to access the post request
+    #permission_classes = [AllowAny]  # Allow any user to access the post request
 
     def get(self, request):
         user_profile = UserProfile.objects.get(user=request.user)
+        print(f"User authenticated: {request.user.is_authenticated}")
         # logger.error('\n \n Error 1 \n \n ')
         mentee = Mentee.objects.get(user=user_profile)
-        # logger.error('\n \n Error 2 \n \n ')
+        logger.error('\n \n Error 2 \n \n ')
         preferences = MenteeWishlist.objects.filter(mentee=mentee)
         # logger.error('\n \n Error 3 \n \n ')
         project_objects = [preference.project for preference in preferences]
@@ -50,7 +53,7 @@ class ProjectWishlist(APIView):
         # logger.error('\n \n Error 6 \n \n ')
         # print("HI")
         user_profile = UserProfile.objects.get(user=request.user)
-        # logger.error('\n \n Error 7 \n \n ')
+        logger.error('\n \n Error 7 \n \n ')
         mentee = Mentee.objects.get(user=user_profile)
         # logger.error('\n \n Error 8 \n \n ')
         project_id = request.data["project_id"]

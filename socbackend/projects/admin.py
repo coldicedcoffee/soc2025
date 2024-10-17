@@ -1,6 +1,6 @@
 from django.contrib import admin
 # from django.contrib import admin
-from .models import Project, Season, Mentee, MenteePreference, MenteeWishlist
+from .models import Project, Mentee, MenteePreference, MenteeWishlist
 
 
 # class MentorInline(admin.TabularInline):
@@ -18,7 +18,7 @@ class MenteeAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(Season)
+# admin.site.register(Season)
 # admin.site.register(Project, ProjectAdmin)
 # admin.site.register(Mentor)
 admin.site.register(Project)    

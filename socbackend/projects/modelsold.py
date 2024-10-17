@@ -260,9 +260,9 @@ class MenteePreference(models.Model):
     preference = models.IntegerField(null=False, blank=False)
    
     def __str__(self):
-	return f"{self.mentee.user.roll_number} {self.project.title} {self.preference}"
+	    return f"{self.mentee.user.roll_number} {self.project.title} {self.preference}"
 
-    class Meta:
+class Meta:
         unique_together = [
             ('mentee', 'project', 'preference'),
             ('mentee', 'project'),

@@ -1,54 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import api from '../utils/api';
-import { useState } from "react";
-import WishlistButton from "./WishlistButton";
 import { Link } from "react-router-dom";
 
 export default function ProjectCard(props) {
+  const [Added, setAdded] = useState(props.isInWishlist);
+
+  // Update state when isInWishlist prop changes
+  useEffect(() => {
+    setAdded(props.isInWishlist);
+  }, [props.isInWishlist]);
+
   const details = {
     project_id: props.ProjectId,
     title: props.title,
     banner_image: props.link,
     general_category: props.general_category,
   };
-  const [Added, setAdded] = useState(props.isInWishlist);
-  let buttonMessage = Added ? "Remove From Wishlist" : "Add To Wishlist";
-  let title = props.title;
 
-  const formData = new FormData();
+    const WishlistAdd = () => {
+      const token = localStorage.getItem('authToken');
 
-  Object.keys(details).forEach(key => {
-      formData.append(key, details[key]);
-  });
-
-  const axiosConfig = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Allow': 'GET, POST, DELETE, HEAD, OPTIONS'
-    }
-  }
-  const WishlistAdd = (e) => {
-    if (!Added) {
-      console.log(formData)
+      if (!token) {
+        console.log("No authentication token found. Please log in.");
+        return;
+      }
     
-      api
-        .post("/api/projects/wishlist/", formData)
-        .then((res) => {
-          console.log(res);
-          setAdded(true);
-        })
-        .catch((err) => console.log(err));
-    } 
-    else {
+      const axiosConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      };
     
-      api.delete(`/api/projects/wishlist?project_id=${props.ProjectId}`)
-        .then((res) => {
-          console.log(res);
-          setAdded(false);
-        })
-        .catch((err) => console.log(err));
-    }
-  };
+      if (!Added) {
+        // Add to wishlist
+        api
+          .post(`${process.env.REACT_APP_BACKEND_URL}/projects/wishlist/`, details, axiosConfig) // Updated URL
+          .then((res) => {
+            console.log("Added to wishlist:", res.data);
+            setAdded(true);
+          })
+          .catch((err) => {
+            if (err.response && err.response.status === 401) {
+              console.log("Unauthorized request. Please log in.");
+            } else {
+              console.log("Error adding to wishlist:", err);
+            }
+          });
+      } else {
+        // Remove from wishlist
+        api
+          .delete(`http://localhost:8000/api/projects/wishlist?project_id=${props.ProjectId}`, axiosConfig) // Updated URL
+          .then((res) => {
+            console.log("Removed from wishlist:", res.data);
+            setAdded(false);
+          })
+          .catch((err) => {
+            if (err.response && err.response.status === 401) {
+              console.log("Unauthorized request. Please log in.");
+            } else {
+              console.log("Error removing from wishlist:", err);
+            }
+          });
+      }
+    };
+    
+
   return (
     <div>
       <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
@@ -67,28 +84,26 @@ export default function ProjectCard(props) {
           </div>
         </Link>
         <div className="p-4 sm:p-6">
-        <button
-          onClick={WishlistAdd}
-          className={`text-white font-bold ${
-            buttonMessage === "Remove From Wishlist" ? "bg-red-600 hover:bg-red-700" : "bg-indigo-600 hover:bg-indigo-700"
-          } text-white font-bold py-2 px-4 rounded inline-flex items-center`}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 mr-2"
+          <button
+            onClick={WishlistAdd}
+            className={`text-white font-bold ${Added ? "bg-red-600 hover:bg-red-700" : "bg-indigo-600 hover:bg-indigo-700"} py-2 px-4 rounded inline-flex items-center`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z"
-            />
-          </svg>
-          <p>{buttonMessage}</p>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 mr-2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25Z"
+              />
+            </svg>
+            <p>{Added ? "Remove From Wishlist" : "Add To Wishlist"}</p>
+          </button>
         </div>
       </article>
     </div>

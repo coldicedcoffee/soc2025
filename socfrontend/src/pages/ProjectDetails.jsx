@@ -20,7 +20,7 @@ export default function ProjectDetails() {
         "description": "",
         "timeline": "",
         "checkpoints": "",
-        "prereuisites": "",
+        "prerequisites": "",
         "co_mentor_info": "",
         "banner_image": null,
         "code": "",
@@ -33,7 +33,7 @@ export default function ProjectDetails() {
 
 
     useEffect(() => {
-        api.get(`/api/projects/${ProjectId}/`)
+        api.get(process.env.REACT_APP_BACKEND_URL+`/projects/${ProjectId}/`)
         .then((response) => {
             // Assuming the response contains the image URL
             console.log(response.data);
@@ -52,7 +52,7 @@ export default function ProjectDetails() {
 
     const [Added, setAdded] = useState();
     useEffect(() => {
-        api.get('/api/projects/wishlist/')
+        api.get(process.env.REACT_APP_BACKEND_URL+'/projects/wishlist/')
           .then((response) => {
             console.log(response.data);
             setWishlist(response.data);
@@ -86,7 +86,7 @@ export default function ProjectDetails() {
           console.log(formData)
           
           api
-          .post("/api/projects/wishlist/", formData)
+          .post(process.env.REACT_APP_BACKEND_URL+"/projects/wishlist/", formData)
             .then((res) => {
                 console.log(res);
                 setAdded(true);
@@ -95,7 +95,7 @@ export default function ProjectDetails() {
         } 
         else {
             
-            api.delete(`/api/projects/wishlist?project_id=${details.id}`)
+            api.delete(process.env.REACT_APP_BACKEND_URL+`/projects/wishlist?project_id=${details.id}`)
             .then((res) => {
                 console.log(res);
                 setAdded(false);

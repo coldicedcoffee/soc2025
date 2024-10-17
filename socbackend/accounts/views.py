@@ -64,37 +64,37 @@ def generate_verification_token():
     return get_random_string(length=32)
 
 
-def verify_email(request, token):
-    try:
-        user_profile = UserProfile.objects.get(verification_token=token)
-        user_profile.verified = True
-        user = user_profile.user
-        user.is_active = True
-        user.save()
-        user_profile.save()
-        mentee = Mentee.objects.create(user=user_profile)
-        mentee.save()
+# def verify_email(request, token):
+#     try:
+#         user_profile = UserProfile.objects.get(verification_token=token)
+#         user_profile.verified = True
+#         user = user_profile.user
+#         user.is_active = True
+#         user.save()
+#         user_profile.save()
+#         mentee = Mentee.objects.create(user=user_profile)
+#         mentee.save()
 
 
-        return JsonResponse({"success": "verified"}, status=200)
-    except UserProfile.DoesNotExist:
-        return JsonResponse({"error": "User does not exist"}, status=400)
+#         return JsonResponse({"success": "verified"}, status=200)
+#     except UserProfile.DoesNotExist:
+#         return JsonResponse({"error": "User does not exist"}, status=400)
 
-def send_verification_email(user_profile):
-    subject = 'SOC Menteee Registration Verification Link'
-    message = f"""
-    Hi {user_profile.name},
+# def send_verification_email(user_profile):
+#     subject = 'SOC Menteee Registration Verification Link'
+#     message = f"""
+#     Hi {user_profile.name},
     
-    Please click on the link below to verify your email address and complete your registration.
+#     Please click on the link below to verify your email address and complete your registration.
     
-    {os.getenv('DOMAIN_NAME')}/verify-email/{user_profile.verification_token}
+#     {os.getenv('DOMAIN_NAME')}/verify-email/{user_profile.verification_token}
     
-    Regards,
-    Team WnCC"""
-    from_email = 'wncc@iitb.ac.in'  # Sender's email address
-    recipient_list = [user_profile.roll_number+'@iitb.ac.in']  # Recipient's email address
+#     Regards,
+#     Team WnCC"""
+#     from_email = 'wncc@iitb.ac.in'  # Sender's email address
+#     recipient_list = [user_profile.roll_number+'@iitb.ac.in']  # Recipient's email address
     
-    send_mail(subject, message, from_email, recipient_list)  
+#     send_mail(subject, message, from_email, recipient_list)  
     
 
 def logout(request):
@@ -134,8 +134,19 @@ class RegisterUserView(APIView):
             verification_token = generate_verification_token()
             user_profile = UserProfile.objects.get(user=user)
             user_profile.verification_token = verification_token
+            user_profile.verified = True
+            user = user_profile.user
+            user.is_active = True
+            user.save()
             user_profile.save()
-            send_verification_email(user_profile)
+            print(f"User profile: {user_profile}")
+            if user_profile:
+                mentee = Mentee.objects.create(user=user_profile)
+                mentee.save()
+            else:
+                raise print("User profile does not exist.")
+            
+            # send_verification_email(user_profile)
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
