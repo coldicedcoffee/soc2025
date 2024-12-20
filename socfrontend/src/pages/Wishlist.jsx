@@ -26,17 +26,19 @@ export default function Wishlist() {
   //   }, []);
     
     useEffect(() => {
-      // Make an HTTP request to fetch the card image from the backend
+      setIsLoading(true);
       api.get(process.env.REACT_APP_BACKEND_URL+'/projects/wishlist/')
       .then((response) => {
-        // Assuming the response contains the image URL
         console.log(response.data);
         setDetails(response.data);
-        // setWishlist(response.data);
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching card image:', error);
+        console.error('Error fetching wishlist:', error);
+        if (error.response && error.response.status === 401) {
+          // Redirect to login if unauthorized
+          window.location.href = '/login';
+        }
         setIsLoading(false);
       });
   }, []);
